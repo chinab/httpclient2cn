@@ -1,17 +1,15 @@
 <html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;1.&nbsp;Fundamentals</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="preface.html" title="Preface"><link rel="next" href="connmgmt.html" title="Chapter&nbsp;2.&nbsp;Connection management"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;1.&nbsp;Fundamentals</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="preface.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="connmgmt.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;1.&nbsp;Fundamentals"><div class="titlepage"><div><div><h2 class="title"><a name="fundamentals"></a>Chapter&nbsp;1.&nbsp;Fundamentals</h2></div></div></div>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>第一章 基础知识</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="preface.html" title="Preface"><link rel="next" href="connmgmt.html" title="Chapter&nbsp;2.&nbsp;Connection management"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">第一章 基础知识</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="preface.html">上一页</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="connmgmt.html">下一页</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;1.&nbsp;Fundamentals"><div class="titlepage"><div><div><h2 class="title"><a name="fundamentals"></a>第一章 基础知识</h2></div></div></div>
     
-    <div class="section" title="1.1.&nbsp;Request execution"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e37"></a>1.1.&nbsp;Request execution</h2></div></div></div>
+    <div class="section" title="1.1.&nbsp;Request execution"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e37"></a>1.1.&nbsp;执行请求</h2></div></div></div>
         
-        <p> The most essential function of HttpClient is to execute HTTP methods. Execution of an
-            HTTP method involves one or several HTTP request / HTTP response exchanges, usually
-            handled internally by HttpClient. The user is expected to provide a request object to
-            execute and HttpClient is expected to transmit the request to the target server return a
-            corresponding response object, or throw an exception if execution was unsuccessful. </p>
-        <p> Quite naturally, the main entry point of the HttpClient API is the HttpClient
-            interface that defines the contract described above. </p>
-        <p>Here is an example of request execution process in its simplest form:</p>
+        <p> 
+		HttpClient 最基本的功能是执行 HTTP 方法。一个 HTTP 方法的执行过程包含一次或多次的 HTTP 请求/ HTTP 响应的交换，通常这个执行过程在 HttpClient 内部执行。用户要为执行过程提供一个请求对象，HttpClient 将这个请求对象发送给目标服务器，并返回一个对应的响应，如果执行失败则抛出异常。</p>
+        
+		<p> 
+		HttpClient API 的主要入口点自然是 HttpClient 接口，这个接口中定义了上文所描述的约定。</p>
+        <p>下面是一个请求执行过程的最简单例子：</p>
         <pre class="programlisting">
 HttpClient httpclient = new DefaultHttpClient();
 HttpGet httpget = new HttpGet("http://localhost/");
@@ -25,21 +23,19 @@ if (entity != null) {
     }
 }
 </pre>
-        <div class="section" title="1.1.1.&nbsp;HTTP request"><div class="titlepage"><div><div><h3 class="title"><a name="d4e43"></a>1.1.1.&nbsp;HTTP request</h3></div></div></div>
+        <div class="section" title="1.1.1.&nbsp;HTTP request"><div class="titlepage"><div><div><h3 class="title"><a name="d4e43"></a>1.1.1.&nbsp;HTTP 请求</h3></div></div></div>
             
-            <p>All HTTP requests have a request line consisting a method name, a request URI and
-                a HTTP protocol version.</p>
-            <p>HttpClient supports out of the box all HTTP methods defined in the HTTP/1.1
-                specification: <code class="literal">GET</code>, <code class="literal">HEAD</code>,
+            <p>
+			所有的 HTTP 请求都包含一个方法名字，一个请求 URI 和一个 HTTP 协议版本。</p>
+            <p>
+			HttpClient 支持所有 HTTP/1.1 规范中所定义的 HTTP 方法 <code class="literal">GET</code>, <code class="literal">HEAD</code>,
                     <code class="literal">POST</code>, <code class="literal">PUT</code>, <code class="literal">DELETE</code>,
-                    <code class="literal">TRACE</code> and <code class="literal">OPTIONS</code>. There is a special
-                class for each method type.: <code class="classname">HttpGet</code>,
+                    <code class="literal">TRACE</code> and <code class="literal">OPTIONS</code>。对于每一个方法都有一个专门的类与之对应: <code class="classname">HttpGet</code>,
                     <code class="classname">HttpHead</code>, <code class="classname">HttpPost</code>,
                     <code class="classname">HttpPut</code>, <code class="classname">HttpDelete</code>,
                     <code class="classname">HttpTrace</code>, and <code class="classname">HttpOptions</code>.</p>
-            <p>The Request-URI is a Uniform Resource Identifier that identifies the resource upon
-                which to apply the request. HTTP request URIs consist of a protocol scheme, host
-                name, optional port, resource path, optional query, and optional fragment.</p>
+            <p>
+			请求 URI 是一个统一资源标识符，其标识了那一个资源适用于这个请求。HTTP 请求 URI 包含协议名、主机名、端口（可选）、资源路径、查询（可选）和其他可选片段。</p>
             <pre class="programlisting">
 HttpGet httpget = new HttpGet(
      "http://www.google.com/search?hl=en&amp;q=httpclient&amp;btnG=Google+Search&amp;aq=f&amp;oq=");
