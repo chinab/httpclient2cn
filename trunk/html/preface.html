@@ -1,38 +1,29 @@
 <html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Preface</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="index.html" title="HttpClient Tutorial"><link rel="next" href="fundamentals.html" title="Chapter&nbsp;1.&nbsp;Fundamentals"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Preface</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="fundamentals.html">Next</a></td></tr></table><hr></div><div class="preface" title="Preface"><div class="titlepage"><div><div><h2 class="title"><a name="preface"></a>Preface</h2></div></div></div>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>前言</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="index.html" title="HttpClient Tutorial"><link rel="next" href="fundamentals.html" title="Chapter&nbsp;1.&nbsp;Fundamentals"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">前言</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html">上一页</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="fundamentals.html">下一页</a></td></tr></table><hr></div><div class="preface" title="Preface"><div class="titlepage"><div><div><h2 class="title"><a name="preface"></a>前言</h2></div></div></div>
     
     <p>
-    The Hyper-Text Transfer Protocol (HTTP) is perhaps the most significant protocol used on the 
-    Internet today. Web services, network-enabled appliances and the growth of network computing 
-    continue to expand the role of the HTTP protocol beyond user-driven web browsers, while 
-    increasing the number of applications that require HTTP support.
+	超文本传输协议（HTTP）可能是当今互联网中最重要的网络协议。网络服务、网络设备以及网络计算的进步不断增强了HTTP协议在浏览器中的作用，同时越来越多应用需要HTTP的支持。
     </p>
     <p>
-    Although the java.net package provides basic functionality for accessing resources via HTTP, 
-    it doesn't provide the full flexibility or functionality needed by many applications. 
-    HttpClient seeks to fill this void by providing an efficient, up-to-date, and feature-rich 
-    package implementing the client side of the most recent HTTP standards and recommendations.
+	虽然 java.net 包中提供了通过HTTP访问资源的基本功能，但是它并没有提供很多应用所需要必要功能和更全面的灵活性。HttpClient 试图提供一个高效、新颖并且功能丰富的工具包来填满这些空白，它实现了一个支持最新HTTP标准及其推荐性标准的客户端。
     </p>
     <p>
-    Designed for extension while providing robust support for the base HTTP protocol, HttpClient 
-    may be of interest to anyone building HTTP-aware client applications such as web browsers, web 
-    service clients, or systems that leverage or extend the HTTP protocol for distributed 
-    communication.
+	那些依构建于HTTP的客户端应用程序，比如网络浏览器、网络服务客户端，或者那些利用、扩展HTTP协议来实现分布式通信的系统也许兴趣来使用 HttpClient，其设计的目的就是为了提供对HTTP操作的功能扩展，同时对基础HTTP协议的提供鲁棒性支持。
     </p>
-    <div class="section" title="1.&nbsp;HttpClient scope"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e20"></a>1.&nbsp;HttpClient scope</h2></div></div></div>
+    <div class="section" title="1.&nbsp;HttpClient scope"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e20"></a>1.&nbsp;HttpClient 概览</h2></div></div></div>
         
         <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
                 <p>
-                    Client-side HTTP transport library based on <a class="ulink" href="http://hc.apache.org/httpcomponents-core/index.html" target="_top">HttpCore</a>
+					基于 <a class="ulink" href="http://hc.apache.org/httpcomponents-core/index.html" target="_top">HttpCore</a> 的HTTP客户端传输库
                 </p>
             </li><li class="listitem">
                 <p>
-                Based on classic (blocking) I/O
+				基于传统（阻塞式）I/O
                 </p>
             </li><li class="listitem">
                 <p>
-                Content agnostic 
+                内容无关
                 </p>
             </li></ul></div>
     </div>
@@ -40,13 +31,9 @@
         
         <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
                 <p>
-                HttpClient is NOT a browser. It is a client side HTTP transport library. 
-                HttpClient's purpose is to transmit and receive HTTP messages. HttpClient will not 
-                attempt to cache content, execute javascript embedded in HTML pages, try to guess 
-                content type, or reformat request / redirect location URIs, or other functionality
-                unrelated to the HTTP transport.
+				HttpClient 不是一个浏览器。它是一个位于客户端的HTTP协议传输开发库。HttpClient 的目的是传送和接收HTTP消息。HttpClient 不会缓存内容，不会执行 HTML 页面中的javascript脚本，不会去猜测内容类型，不会重新格式化请求/跳转的URL以及其他一些和HTTP传输无关功能。
                 </p>
             </li></ul></div>
     </div>
 
-</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="fundamentals.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">HttpClient Tutorial&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;1.&nbsp;Fundamentals</td></tr></table></div></body></html>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">前一页</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="fundamentals.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">HttpClient 教程&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">主页</a></td><td width="40%" align="right" valign="top">第一章 基础知识</td></tr></table></div></body></html>
