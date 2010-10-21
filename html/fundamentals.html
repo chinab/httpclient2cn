@@ -136,8 +136,8 @@ while (it.hasNext()) {
 Set-Cookie: c1=a; path=/; domain=localhost
 Set-Cookie: c2=b; path="/", c3=c; domain="localhost"
 </pre>
-            <p>It also provides convenience methods to parse HTTP messages into individual header
-                elements.</p>
+            <p>
+			他也提供了一些方法来解析 HTTP 消息，并转换成单独的头信息元素。</p>
             <pre class="programlisting">
 HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, 
     HttpStatus.SC_OK, "OK");
@@ -169,79 +169,60 @@ c3 = c
 domain=localhost
 </pre>
         </div>
-        <div class="section" title="1.1.4.&nbsp;HTTP entity"><div class="titlepage"><div><div><h3 class="title"><a name="d4e93"></a>1.1.4.&nbsp;HTTP entity</h3></div></div></div>
+        <div class="section" title="1.1.4.&nbsp;HTTP entity"><div class="titlepage"><div><div><h3 class="title"><a name="d4e93"></a>1.1.4.&nbsp;HTTP 实体</h3></div></div></div>
             
-            <p>HTTP messages can carry a content entity associated with the request or response.
-                Entities can be found in some requests and in some responses, as they are optional.
-                Requests that use entities are referred to as entity enclosing requests. The HTTP
-                specification defines two entity enclosing methods: <code class="literal">POST</code> and
-                    <code class="literal">PUT</code>. Responses are usually expected to enclose a content
-                entity. There are exceptions to this rule such as responses to
+            <p>
+			HTTP 消息可以携带和请求或者响应相关联的内容实体。在某些请求和响应中可以找到这些实体，因为它们是可选的。
+			使用实体的请求是指那些用实体来关闭请求的那些 HTTP 请求。HTTP 规范中定义了两种实体关闭方法：<code class="literal">POST</code> and
+                    <code class="literal">PUT</code>. 
+					HTTP 响应通常是关闭实体内容的。但是也有例外：
                     <code class="literal">HEAD</code> method and <code class="literal">204 No Content</code>,
                     <code class="literal">304 Not Modified</code>, <code class="literal">205 Reset Content</code>
                 responses.</p>
-            <p>HttpClient distinguishes three kinds of entities, depending on where their content
-                originates:</p>
+            <p>
+			依据实体内容的来源，HttpClient 分为三种类型的实体：</p>
             <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
                     <p title="streamed:">
-                        <b>streamed:&nbsp;</b>
-                        The content is received from a stream, or generated on the fly. In
-                            particular, this category includes entities being received from HTTP
-                            responses. Streamed entities are generally not repeatable.
+                        <b>流式:&nbsp;</b>
+						内容是来源于数据流的，或者是实时产生的。这类实体特别包含从 HTTP 响应中获得的实体。流式实体通常是不可重复的。
                     </p>
                 </li><li class="listitem">
                     <p title="self-contained:">
-                        <b>self-contained:&nbsp;</b>
-                        The content is in memory or obtained by means that are independent
-                            from a connection or other entity. Self-contained entities are generally
-                            repeatable. This type of entities will be mostly used for entity
-                            enclosing HTTP requests.
+                        <b>自包含式:&nbsp;</b>
+						自包含式实体的内容来自内存或者那些独立于连接或者其他实体的地方。自包含式实体一般是可重复的。这类实体多数情况下用作闭包 HTTP 请求。
                     </p>
                 </li><li class="listitem">
                     <p title="wrapping:">
-                        <b>wrapping:&nbsp;</b>
-                        The content is obtained from another entity.
+                        <b>包装式:&nbsp;</b>
+						包装式实体的内容来自其他实体。
                     </p>
                 </li></ul></div>
-            <p>This distinction is important for connection management when streaming out content
-                from an HTTP response. For request entities that are created by an application and
-                only sent using HttpClient, the difference between streamed and self-contained is of
-                little importance. In that case, it is suggested to consider non-repeatable entities
-                as streamed, and those that are repeatable as self-contained.</p>
-            <div class="section" title="1.1.4.1.&nbsp;Repeatable entities"><div class="titlepage"><div><div><h4 class="title"><a name="d4e117"></a>1.1.4.1.&nbsp;Repeatable entities</h4></div></div></div>
+            <p>
+			当从一个 HTTP 响应中分离出内容时，这个区别对于连接管理是很重要的。
+				对于那些通过程序和 HttpClient 发送的请求实体，流式实体和自包含实体的区别并不重要。理论上考虑将不可重复的实体最为流式实体，将可重复实体作为自包含实体。
+				</p>
+            <div class="section" title="1.1.4.1.&nbsp;Repeatable entities"><div class="titlepage"><div><div><h4 class="title"><a name="d4e117"></a>1.1.4.1.&nbsp;可重复实体</h4></div></div></div>
                 
-                <p>An entity can be repeatable, meaning its content can be read more than once.
-                    This is only possible with self contained entities (like
-                        <code class="classname">ByteArrayEntity</code> or
+                <p>
+				如果说一个实体可重复的，意思是说它的内容可以多次被读取。	这仅仅是自包含实体的一种可能 (例如
+                        <code class="classname">ByteArrayEntity</code> 或者
                         <code class="classname">StringEntity</code>)</p>
             </div>
-            <div class="section" title="1.1.4.2.&nbsp;Using HTTP entities"><div class="titlepage"><div><div><h4 class="title"><a name="d4e122"></a>1.1.4.2.&nbsp;Using HTTP entities</h4></div></div></div>
+            <div class="section" title="1.1.4.2.&nbsp;Using HTTP entities"><div class="titlepage"><div><div><h4 class="title"><a name="d4e122"></a>1.1.4.2.&nbsp;使用 HTTP 实体</h4></div></div></div>
                 
-                <p>Since an entity can represent both binary and character content, it has
-                    support for character encodings (to support the latter, ie. character
-                    content).</p>
-                <p>The entity is created when executing a request with enclosed content or when
-                    the request was successful and the response body is used to send the result back
-                    to the client.</p>
-                <p>To read the content from the entity, one can either retrieve the input stream
-                    via the <code class="methodname">HttpEntity#getContent()</code> method, which returns
-                    an <code class="classname">java.io.InputStream</code>, or one can supply an output
-                    stream to the <code class="methodname">HttpEntity#writeTo(OutputStream)</code> method,
-                    which will return once all content has been written to the given stream.</p>
-                <p>When the entity has been received with an incoming message, the methods
-                        <code class="methodname">HttpEntity#getContentType()</code> and
-                        <code class="methodname">HttpEntity#getContentLength()</code> methods can be used
-                    for reading the common metadata such as <code class="literal">Content-Type</code> and
-                        <code class="literal">Content-Length</code> headers (if they are available). Since the
-                        <code class="literal">Content-Type</code> header can contain a character encoding for
-                    text mime-types like text/plain or text/html, the
-                        <code class="methodname">HttpEntity#getContentEncoding()</code> method is used to
-                    read this information. If the headers aren't available, a length of -1 will be
-                    returned, and NULL for the content type. If the <code class="literal">Content-Type</code>
-                    header is available, a <code class="interfacename">Header</code> object will be
-                    returned.</p>
-                <p>When creating an entity for a outgoing message, this meta data has to be
-                    supplied by the creator of the entity.</p>
+                <p>
+				因为一个实体即可能表示二进制内容也可能是字符内容，所以它要支持字符编码的处理（为了支持后者）。</p>
+                <p>
+				当执行带闭包内容的请求的时候，或者当请求成功时创建实体，并且响应体作为结果发回给客户端。</p>
+                <p>
+				若要从实体中读取内容，既可以通过返回<code class="classname">java.io.InputStream</code>的<code class="methodname">HttpEntity#getContent()</code>方法接收数据流，也可以通过给<code class="methodname">HttpEntity#writeTo(OutputStream)</code>方法提供一个输出流的方式，对于后者，如果全部内容已经输出到输出流中则返回。</p>
+                <p>
+				当已经从收到的消息中接收到实体的时候，方法<code class="methodname">HttpEntity#getContentType()</code> 和
+                        <code class="methodname">HttpEntity#getContentLength()</code>可以用来读取如<code class="literal">Content-Type</code> 、
+                        <code class="literal">Content-Length</code> 这样的头信息（如果它们有效的话）。因为<code class="literal">Content-Type</code> 头可以包含像 text/plain 或者 text/html 这样的 Mime 类型内容的字符编码，所以<code class="methodname">HttpEntity#getContentEncoding()</code> 用来读取这些信息。如果头信息无效，对于长度返回-1，对于内容返回NULL。如果  <code class="literal">Content-Type</code> 有效，<code class="interfacename">Header</code> 将被返回。</p>
+                <p>
+				当为发出的消息创建实体时，实体的创建者必须提供元数据。
+					</p>
                 <pre class="programlisting">
 StringEntity myEntity = new StringEntity("important message", 
     "UTF-8");
@@ -262,23 +243,16 @@ important message
 </pre>
             </div>
         </div>
-        <div class="section" title="1.1.5.&nbsp;Ensuring release of low level resources"><div class="titlepage"><div><div><h3 class="title"><a name="d4e143"></a>1.1.5.&nbsp;Ensuring release of low level resources</h3></div></div></div>
+        <div class="section" title="1.1.5.&nbsp;Ensuring release of low level resources"><div class="titlepage"><div><div><h3 class="title"><a name="d4e143"></a>1.1.5.&nbsp;确保对底层资源的释放</h3></div></div></div>
             
-            <p>When finished with a response entity, it's important to ensure that all entity
-                content has been fully consumed, so that the connection could be safely returned to
-                the connection pool and re-used by the connection manager for subsequent requests.
-                The easiest way to do so is to call the
-                    <code class="methodname">HttpEntity#consumeContent(</code>) method to consume any
-                available content on the stream. HttpClient will automatically release the
-                underlying connection back to the connection manager as soon as it detects that the
-                end of the content stream has been reached. The
-                    <code class="methodname">HttpEntity#consumeContent()</code> method is safe to call more
-                than once.</p>
-            <p>There can be situations, however, when only a small portion of the entire response
-                content needs to be retrieved and the performance penalty for consuming the
-                remaining content and making the connection reusable is too high, one can simply
-                terminate the request by calling <code class="methodname">HttpUriRequest#abort()</code>
-                method.</p>
+            <p>
+			当响应实体使用结束时，确保所有的实体内容被完全消费掉了是很重要的，这样该连接才能被安全地回到连接池中，分给其他挂起的请求使用。
+			最简单的方式是调用<code class="methodname">HttpEntity#consumeContent()</code>来消费掉在请求流任何有效的实体内容。
+		一旦 HttpClient 侦测到内容流已经到达末端，它会自动释放底层连接给连接管理器。<code class="methodname">HttpEntity#consumeContent()</code> 被调用多次也是安全的。
+</p>
+            <p>
+			但是存在一种情况，当只需要获得整个响应内容的一小部分的时候，消费剩下的内容以及使连接可重用的性能损耗是非常大的，你可以调用<code class="methodname">HttpUriRequest#abort()</code>方法来终结请求。
+			</p>
             <pre class="programlisting">
 HttpGet httpget = new HttpGet("http://localhost/");
 HttpResponse response = httpclient.execute(httpget);
@@ -291,21 +265,17 @@ if (entity != null) {
     httpget.abort();
 }
 </pre>
-            <p>The connection will not be reused, but all level resources held by it will be
-                correctly deallocated.</p>
+            <p>连接不会被释放，但是这个连接所持有的资源会将被重新分配。</p>
         </div>
-        <div class="section" title="1.1.6.&nbsp;Consuming entity content"><div class="titlepage"><div><div><h3 class="title"><a name="d4e152"></a>1.1.6.&nbsp;Consuming entity content</h3></div></div></div>
+        <div class="section" title="1.1.6.&nbsp;Consuming entity content"><div class="titlepage"><div><div><h3 class="title"><a name="d4e152"></a>1.1.6.&nbsp;消费实体内容</h3></div></div></div>
             
-            <p>The recommended way to consume content of an entity is by using its
-                    <code class="methodname">HttpEntity#getContent()</code> or
-                    <code class="methodname">HttpEntity#writeTo(OutputStream)</code> methods. HttpClient
-                also comes with the <code class="classname">EntityUtils</code> class, which exposes several
-                static methods to more easily read the content or information from an entity.
-                Instead of reading the <code class="classname">java.io.InputStream</code> directly, one can
-                retrieve the whole content body in a string / byte array by using the methods from
-                this class. However, the use of <code class="classname">EntityUtils</code> is
-                strongly discouraged unless the response entities originate from a trusted HTTP
-                server and are known to be of limited length.</p>
+            <p>
+			消费实体内容的推荐方式是使用 <code class="methodname">HttpEntity#getContent()</code> 或
+                    <code class="methodname">HttpEntity#writeTo(OutputStream)</code> 方法。
+ HttpClient 也提供了<code class="classname">EntityUtils</code> 类，它提供了一些静态方法使得从一个实体中读取内容和信息变得更加容易。
+                你也可以通过它的一些方法以字符串或字节数组的方式获得整个的内容体，而不是直接从  <code class="classname">java.io.InputStream</code> 中读取。
+				但是，强烈不推荐使用 <code class="classname">EntityUtils</code>，除非响应实体来自于可信任的 HTTP 服务器或者知道实体的长度限制。 
+</p>
             <pre class="programlisting">
 HttpGet httpget = new HttpGet("http://localhost/");
 HttpResponse response = httpclient.execute(httpget);
