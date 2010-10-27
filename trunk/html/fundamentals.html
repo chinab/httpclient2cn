@@ -475,10 +475,9 @@ Final target: http://www.google.ch
             <p>
 			认识到 HTTP 协议并不是适用于所有类型的应用是很重要的。HTTP 只是一个面向请求/响应的简单协议，它的初衷是获取静态或动态生成的内容。它从来没有打算支持事物性操作。例如，HTTP 服务器只它是否成功地接收并处理请求、生成响应以及向客户端发回状态码，如果由于超时、请求取消或者系统崩溃导致客户端接收响应失败，服务端不会尝试回滚事务？？。如果客户端重试这个请求，服务端不可避免地不止一次地结束这个相同的事务。在某些情况下，这可能导致应用数据的冲突或不一致的状态。
 </p>
-            <p>Even though HTTP has never been designed to support transactional processing, it
-                can still be used as a transport protocol for mission critical applications provided
-                certain conditions are met. To ensure HTTP transport layer safety the system must
-                ensure the idempotency of HTTP methods on the application layer.</p>
+            <p>
+			｛对幂等做出解释｝
+			但是，即使是 HTTP 根本不支持事务处理，但是某些条件满足的情况下，HTTP 仍然可以作为支持带有关键性任务的应用的协议。为了确保 HTTP 传输层的安全，系统？？必须保证 HTTP 方法在应用层上的幂等性。</p>
         </div>
         <div class="section" title="1.3.2.&nbsp;Idempotent methods"><div class="titlepage"><div><div><h3 class="title"><a name="d4e255"></a>1.3.2.&nbsp;Idempotent methods</h3></div></div></div>
             
@@ -488,50 +487,39 @@ Final target: http://www.google.ch
 				</span>]
             </p>
             <p>
-			换句话说，应用程序应该确保它已经准备好应对同一个方法多次执行所带来的影响。这一点是可以实现的，比方说提供一个统一的事务id，避免执行相同逻辑操作的其他一些方法。
-			In other words the application ought to ensure that it is prepared to deal with
-                the implications of multiple execution of the same method. This can be achieved, for
-                instance, by providing a unique transaction id and by other means of avoiding
-                execution of the same logical operation.</p>
-            <p>Please note that this problem is not specific to HttpClient. Browser based
-                applications are subject to exactly the same issues related to HTTP methods
-                non-idempotency.</p>
-            <p>HttpClient assumes non-entity enclosing methods such as <code class="literal">GET</code> and
-                    <code class="literal">HEAD</code> to be idempotent and entity enclosing methods such as
-                    <code class="literal">POST</code> and <code class="literal">PUT</code> to be not.</p>
+			换句话说，应用程序应该确保它已经准备好应对同一个方法多次执行所带来的影响。这一点是可以实现的，比方说提供一个统一的事务id，避免执行相同逻辑操作的其他一些方法。</p>
+            <p>
+			请注意，这个问题并不是针对 HttpClient。基于浏览器的应用程序同样的问题，都和HTTP 方法的非幂等性有关。？？
+			</p>
+            <p>
+			HttpClient 假定非实体闭包方法？？例如 <code class="literal">GET</code> 和
+                    <code class="literal">HEAD</code> 是幂等的，实体闭包方法比如<code class="literal">POST</code> 和 <code class="literal">PUT</code>是非幂等的。</p>
         </div>
-        <div class="section" title="1.3.3.&nbsp;Automatic exception recovery"><div class="titlepage"><div><div><h3 class="title"><a name="d4e267"></a>1.3.3.&nbsp;Automatic exception recovery</h3></div></div></div>
+        <div class="section" title="1.3.3.&nbsp;Automatic exception recovery"><div class="titlepage"><div><div><h3 class="title"><a name="d4e267"></a>1.3.3.&nbsp;执行流自动恢复？</h3></div></div></div>
             
-            <p>By default HttpClient attempts to automatically recover from I/O exceptions. The
-                default auto-recovery mechanism is limited to just a few exceptions that are known
-                to be safe.</p>
+            <p>
+			默认情况下 HttpClient 尝试自动从 I/O 异常中恢复过来。默认的自动恢复机制仅限于几个已知的安全异常。</p>
             <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-                    <p>HttpClient will make no attempt to recover from any logical or HTTP
-                        protocol errors (those derived from
-                            <code class="exceptionname">HttpException</code> class).</p>
+                    <p>
+					HttpClient 不从逻辑或 HTTP 协议错误中恢复（衍生自<code class="exceptionname">HttpException</code>类）</p>
                 </li><li class="listitem">
-                    <p>HttpClient will automatically retry those methods that are assumed to be
-                        idempotent.</p>
+                    <p>
+					HttpClient 自动对那些假定为幂等的方法进行重试。
+					</p>
                 </li><li class="listitem">
-                    <p>HttpClient will automatically retry those methods that fail with a
-                        transport exception while the HTTP request is still being transmitted to the
-                        target server (i.e. the request has not been fully transmitted to the
-                        server).</p>
+                    <p>
+					HttpClient 会重试那些由于传输异常失败而HTTP 请求仍然被输送到目标服务器？？｛比较下面的｝（例如，那些还没有完全传输到服务器端的请求）的方法。</p>
                 </li><li class="listitem">
-                    <p>HttpClient will automatically retry those methods that have been fully
-                        transmitted to the server, but the server failed to respond with an HTTP
-                        status code (the server simply drops the connection without sending anything
-                        back). In this case it is assumed that the request has not been processed by
-                        the server and the application state has not changed. If this assumption may
-                        not hold true for the web server your application is targeting it is highly
-                        recommended to provide a custom exception handler.</p>
+                    <p>
+					HttpClient 会自动对那些已经完全传送到服务端，但是服务端响应 HTTP 状态码失败（服务端简单地断开连接，什么都不返回）的方法进行重试。
+					在这种情况下，假设请求并没有被服务端处理，应用状态不变。如果这个假设在你的应用所针对的服务器不成立，强烈建议你提供一个自定义的异常处理程序。
+					</p>
                 </li></ul></div>
         </div>
-        <div class="section" title="1.3.4.&nbsp;Request retry handler"><div class="titlepage"><div><div><h3 class="title"><a name="d4e280"></a>1.3.4.&nbsp;Request retry handler</h3></div></div></div>
+        <div class="section" title="1.3.4.&nbsp;Request retry handler"><div class="titlepage"><div><div><h3 class="title"><a name="d4e280"></a>1.3.4.&nbsp;请求重试处理程序</h3></div></div></div>
             
-            <p>In order to enable a custom exception recovery mechanism one should provide an
-                implementation of the <code class="interfacename">HttpRequestRetryHandler</code>
-                interface.</p>
+            <p>
+			为了利用自定义异常恢复机制，你需要提供一个 <code class="interfacename">HttpRequestRetryHandler</code> 接口额实现。</p>
             <pre class="programlisting">
 DefaultHttpClient httpclient = new DefaultHttpClient();
 
