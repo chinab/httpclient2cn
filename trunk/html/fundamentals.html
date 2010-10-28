@@ -557,28 +557,26 @@ httpclient.setHttpRequestRetryHandler(myRetryHandler);
 </pre>
         </div>
     </div>
-    <div class="section" title="1.4.&nbsp;Aborting requests"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e285"></a>1.4.&nbsp;Aborting requests</h2></div></div></div>
+    <div class="section" title="1.4.&nbsp;Aborting requests"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e285"></a>1.4.&nbsp;放弃连接</h2></div></div></div>
         
-        <p>In some situations HTTP request execution fail to complete within the expected time
-            frame due to high load on the target server or too many concurrent requests issued on
-            the client side. In such cases it may be necessary to terminate the request prematurely
-            and unblock the execution thread blocked in a I/O operation. HTTP requests being
-            executed by HttpClient can be aborted at any stage of execution by invoking
-                <code class="methodname">HttpUriRequest#abort()</code> method. This method is thread-safe
-            and can be called from any thread. When an HTTP request is aborted its execution thread
-            blocked in an I/O operation is guaranteed to unblock by throwing a
-                <code class="exceptionname">InterruptedIOException</code></p>
+        <p>
+		有些情况下，由于目标服务器负载太高或者客户端的并发请求过多导致 HTTP 请求没有执行完。
+		这种情况下，有必要暂时终止请求并且将阻塞于I/O操作上的线程解锁。通过调用 <code class="methodname">HttpUriRequest#abort()</code>，HttpClient 可以在请求执行的任何阶段将其取消。
+		这个方法是线程安全的，可以被任何线程调用。当一个 HTTP 请求被取消时，它阻塞在 I/O 操作上的线程保证会通过抛出 <code class="exceptionname">InterruptedIOException</code> 来解锁。			
+		</p>
     </div>
-    <div class="section" title="1.5.&nbsp;HTTP protocol interceptors"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e290"></a>1.5.&nbsp;HTTP protocol interceptors</h2></div></div></div>
+    <div class="section" title="1.5.&nbsp;HTTP protocol interceptors"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e290"></a>1.5.&nbsp;HTTP 协议拦截器</h2></div></div></div>
         
-        <p>HTTP protocol interceptor is a routine that implements a specific aspect of the HTTP
-            protocol. Usually protocol interceptors are expected to act upon one specific header or
-            a group of related headers of the incoming message or populate the outgoing message with
-            one specific header or a group of related headers. Protocol interceptors can also
-            manipulate content entities enclosed with messages, transparent content compression /
-            decompression being a good example. Usually this is accomplished by using the
-            'Decorator' pattern where a wrapper entity class is used to decorate the original
-            entity. Several protocol interceptors can be combined to form one logical unit.</p>
+        <p>
+		HTTP 协议拦截器是一个实现了 HTTP 协议一个特殊方面的例程？？。
+		通常协议拦截器作用在拥有特殊头或一组相关头的输入消息上，或者向输入消息中填入一个特殊头？？或者一组相关头。
+			
+			协议拦截器也会操作包围着消息的实体？，对内容的透明地进行压缩和解压倒是个好例子？？。
+			协议拦截器通常是使用“装饰器”设计模式来实现的，在这里？？一个包装实体类被用来修饰原始实体。
+			
+			若干协议解释器可以组合成一个逻辑单元。？？
+			</p>
+			
         <p>Protocol interceptors can collaborate by sharing information - such as a processing
             state - through the HTTP execution context. Protocol interceptors can use HTTP context
             to store a processing state for one request or several consecutive requests.</p>
