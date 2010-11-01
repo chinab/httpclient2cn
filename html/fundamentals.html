@@ -577,19 +577,20 @@ httpclient.setHttpRequestRetryHandler(myRetryHandler);
 			若干协议解释器可以组合成一个逻辑单元。？？
 			</p>
 			
-        <p>Protocol interceptors can collaborate by sharing information - such as a processing
-            state - through the HTTP execution context. Protocol interceptors can use HTTP context
-            to store a processing state for one request or several consecutive requests.</p>
-        <p>Usually the order in which interceptors are executed should not matter as long as they
-            do not depend on a particular state of the execution context. If protocol interceptors
-            have interdependencies and therefore must be executed in a particular order, they should
-            be added to the protocol processor in the same sequence as their expected execution
-            order.</p>
-        <p>Protocol interceptors must be implemented as thread-safe. Similarly to servlets,
-            protocol interceptors should not use instance variables unless access to those variables
-            is synchronized.</p>
-        <p>This is an example of how local context can be used to persist a processing state
-            between consecutive requests:</p>
+        <p>
+		
+		协议拦截器可以通过共享信息联合起来？？——比如处理状态——通过 HTTP 执行上下文。协议拦截器可以通过 HTTP 上下文来为一个或几个连续的请求来储存处理状态。？？		
+		</p>
+        <p>
+		通常拦截器的执行数序应该是没有关系的，只要它们不依赖于执行上下文的特殊状态。	
+		</p>
+        <p>
+		
+		协议拦截器必须是线程安全的。和线程类似，协议拦截器不应该使用实例变量，除非这些变量是同步的。
+		</p>
+        <p>
+		这是一个关于如何使用本地上下文在联系的请求之间来保存处理状态的例子：
+		</p>
         <pre class="programlisting">
 DefaultHttpClient httpclient = new DefaultHttpClient();
 
@@ -621,30 +622,23 @@ for (int i = 0; i &lt; 10; i++) {
 }
 </pre>
     </div>
-    <div class="section" title="1.6.&nbsp;HTTP parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e298"></a>1.6.&nbsp;HTTP parameters</h2></div></div></div>
+    <div class="section" title="1.6.&nbsp;HTTP parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e298"></a>1.6.&nbsp;HTTP 参数</h2></div></div></div>
         
-        <p>HttpParams interface represents a collection of immutable values that define a runtime
-            behavior of a component. In many ways <code class="interfacename">HttpParams</code> is
-            similar to <code class="interfacename">HttpContext</code>. The main distinction between the
-            two lies in their use at runtime. Both interfaces represent a collection of objects that
-            are organized as a map of keys to object values, but serve distinct purposes:</p>
+        <p>
+		HttpParams 接口代表了一个不变量的集合，这写不变量定义了组件运行时的行为。<code class="interfacename">HttpParams</code> 和
+            <code class="interfacename">HttpContext</code> 类似，它们之间主要的区别在于运行时的使用上？？，它们两个都是以键/值方式组织的对象的集合，但是使用目的不同？：		
+		</p>
         <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-                <p><code class="interfacename">HttpParams</code> is intended to contain simple
-                    objects: integers, doubles, strings, collections and objects that remain
-                    immutable at runtime.</p>
+                <p>
+				<code class="interfacename">HttpParams</code> 是用来包含简单对象？？：整型、双精型、字符串、集合类型以及在运行时保持不变的值。</p>
             </li><li class="listitem">
                 <p>
-                    <code class="interfacename">HttpParams</code> is expected to be used in the 'write
-                    once - ready many' mode. <code class="interfacename">HttpContext</code> is intended
-                    to contain complex objects that are very likely to mutate in the course of HTTP
-                    message processing. </p>
-            </li><li class="listitem">
-                <p>The purpose of <code class="interfacename">HttpParams</code> is to define a
-                    behavior of other components. Usually each complex component has its own
-                        <code class="interfacename">HttpParams</code> object. The purpose of
-                        <code class="interfacename">HttpContext</code> is to represent an execution
-                    state of an HTTP process. Usually the same execution context is shared among
-                    many collaborating objects.</p>
+                    <code class="interfacename">HttpParams</code> 被用作“一次写-多次度”模式。 <code class="interfacename">HttpContext</code> 是用来包含那些在 HTTP 消息处理过程中非常容易发生变化的复杂对象。</p>
+            </li>
+			<li class="listitem">
+                <p>
+				<code class="interfacename">HttpParams</code> 的目的是定义其他组件的行为？。通常每一个复杂的组件都有他自己的 <code class="interfacename">HttpParams</code> 对象。<code class="interfacename">HttpContext</code> 的目的是代表一个 HTTP 处理执行阶段？？。通常同样的执行上下文中在很多协作对象之间进行共享。
+				</p>
             </li></ul></div>
         <div class="section" title="1.6.1.&nbsp;Parameter hierarchies"><div class="titlepage"><div><div><h3 class="title"><a name="d4e316"></a>1.6.1.&nbsp;Parameter hierarchies</h3></div></div></div>
             
