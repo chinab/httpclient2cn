@@ -640,17 +640,13 @@ for (int i = 0; i &lt; 10; i++) {
 				<code class="interfacename">HttpParams</code> 的目的是定义其他组件的行为？。通常每一个复杂的组件都有他自己的 <code class="interfacename">HttpParams</code> 对象。<code class="interfacename">HttpContext</code> 的目的是代表一个 HTTP 处理执行阶段？？。通常同样的执行上下文中在很多协作对象之间进行共享。
 				</p>
             </li></ul></div>
-        <div class="section" title="1.6.1.&nbsp;Parameter hierarchies"><div class="titlepage"><div><div><h3 class="title"><a name="d4e316"></a>1.6.1.&nbsp;Parameter hierarchies</h3></div></div></div>
+        <div class="section" title="1.6.1.&nbsp;Parameter hierarchies"><div class="titlepage"><div><div><h3 class="title"><a name="d4e316"></a>1.6.1.&nbsp;参数层次？？</h3></div></div></div>
             
-            <p>In the course of HTTP request execution <code class="interfacename">HttpParams</code>
-                of the <code class="interfacename">HttpRequest</code> object are linked together with
-                    <code class="interfacename">HttpParams</code> of the
-                    <code class="interfacename">HttpClient</code> instance used to execute the request.
-                This enables parameters set at the HTTP request level take precedence over
-                    <code class="interfacename">HttpParams</code> set at the HTTP client level. The
-                recommended practice is to set common parameters shared by all HTTP requests at the
-                HTTP client level and selectively override specific parameters at the HTTP request
-                level.</p>
+            <p>
+			在 HTTP 请求的执行过程中，<code class="interfacename">HttpRequest</code> 对象的<code class="interfacename">HttpParams</code>和 <code class="interfacename">HttpClient</code> 实例的 <code class="interfacename">HttpParams</code> 连接到一起用来执行请求？？。
+			这使得在 HTTP 请求层设置的参数比在 HTTP 客户端层设置的参数优先级高。
+
+			推荐的做法是在 HTTP 客户端层设置被所有HTTP请求共享的公共参数，在 HTTP 请求层？？设置特参数。</p>
             <pre class="programlisting">
 DefaultHttpClient httpclient = new DefaultHttpClient();
 httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, 
@@ -689,7 +685,7 @@ false
 null
 </pre>
         </div>
-        <div class="section" title="1.6.2.&nbsp;HTTP parameters beans"><div class="titlepage"><div><div><h3 class="title"><a name="d4e327"></a>1.6.2.&nbsp;HTTP parameters beans</h3></div></div></div>
+        <div class="section" title="1.6.2.&nbsp;HTTP parameters beans"><div class="titlepage"><div><div><h3 class="title"><a name="d4e327"></a>1.6.2.&nbsp;HTTP 参数 bean</h3></div></div></div>
             
             <p><code class="interfacename">HttpParams</code> interface allows for a great deal of
                 flexibility in handling configuration of components. Most importantly, new
@@ -700,6 +696,11 @@ null
                 framework. To mitigate the limitation, HttpClient includes a number of bean classes
                 that can used in order to initialize <code class="interfacename">HttpParams</code>
                 objects using standard Java bean conventions.</p>
+
+            <p><code class="interfacename">HttpParams</code> 接口允许在处理组件的配置上拥有大量的灵活性？？。  
+			最重要的是，可以在不影响老版本的二进制兼容性的情况下引入新的参数。但是，<code class="interfacename">HttpParams</code> 和常规的 Java beans 也有某些缺点：<code class="interfacename">HttpParams</code> 不能通过DI（依赖注入）框架进行装配。为类缓解？？这个限制，HttpClient 包含了许多bean 类？？，可以用来以标准的 Java bean 规范来初始化 <code class="interfacename">HttpParams</code>。</p>
+
+				
             <pre class="programlisting">
 HttpParams params = new BasicHttpParams();
 HttpProtocolParamBean paramsBean = new HttpProtocolParamBean(params);
@@ -725,77 +726,52 @@ null
 </pre>
         </div>
     </div>
-    <div class="section" title="1.7.&nbsp;HTTP request execution parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e337"></a>1.7.&nbsp;HTTP request execution parameters</h2></div></div></div>
+    <div class="section" title="1.7.&nbsp;HTTP request execution parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e337"></a>1.7.&nbsp;HTTP 请求执行参数</h2></div></div></div>
         
-        <p>These are parameters that can impact the process of request execution:</p>
+        <p>
+		这些参数可以影响到请求的执行过程：</p>
         <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
                 <p title="'http.protocol.version':">
                     <b>'http.protocol.version':&nbsp;</b>
-                    defines HTTP protocol version used if not set explicitly on the request
-                        object. This parameter expects a value of type
-                            <code class="interfacename">ProtocolVersion</code>. If this parameter is not
-                        set HTTP/1.1 will be used.
+					如果没有在请求对象中专门设置这个参数，则其定义了使用的 HTTP 协议版本。？？
+					这个参数需要一个 <code class="interfacename">ProtocolVersion</code> 类型的值。
+					如果这个参数没有被设定，HTTP/1.1 将最为默认值。？
                 </p>
             </li><li class="listitem">
                 <p title="'http.protocol.element-charset':">
                     <b>'http.protocol.element-charset':&nbsp;</b>
-                    defines the charset to be used for encoding HTTP protocol elements. This
-                        parameter expects a value of type <code class="classname">java.lang.String</code>.
-                        If this parameter is not set <code class="literal">US-ASCII</code> will be
-                        used.
+					定义了用于对 HTTP 协议元素进行编码的字符集？？。这个参数要求是一个 <code class="classname">java.lang.String</code> 类型的值。
+                     如果这个参数没有设置，<code class="literal">US-ASCII</code> 会作为默认值。
                 </p>
             </li><li class="listitem">
                 <p title="'http.protocol.content-charset':">
                     <b>'http.protocol.content-charset':&nbsp;</b>
-                    defines the charset to be used per default for content body coding. This
-                        parameter expects a value of type <code class="classname">java.lang.String</code>.
-                        If this parameter is not set <code class="literal">ISO-8859-1</code> will be
-                        used.
+                    定义了用于内容体编码的每个默认值？？。这个参数要求是一个 <code class="classname">java.lang.String</code> 类型的值。
+					如果这个参数没有被设置，<code class="literal">ISO-8859-1</code> 会作为默认值。
                 </p>
             </li><li class="listitem">
                 <p title="'http.useragent':">
                     <b>'http.useragent':&nbsp;</b>
-                    defines the content of the <code class="literal">User-Agent</code> header. This
-                        parameter expects a value of type <code class="classname">java.lang.String</code>.
-                        If this parameter is not set, HttpClient will automatically generate a value
-                        for it.
+					定义了 <code class="literal">User-Agent</code> 头的内容。这个参数要求是一个 <code class="classname">java.lang.String</code> 类型的值。
+					如果这个参数没有被设置，HttpClient 会自动生成一个。
                 </p>
             </li><li class="listitem">
                 <p title="'http.protocol.strict-transfer-encoding':">
                     <b>'http.protocol.strict-transfer-encoding':&nbsp;</b>
-                    defines whether responses with an invalid
-                            <code class="literal">Transfer-Encoding</code> header should be rejected. This
-                        parameter expects a value of type <code class="classname">java.lang.Boolean</code>.
-                        If this parameter is not set invalid <code class="literal">Transfer-Encoding</code>
-                        values will be ignored.
+					定义了是否带有无效 <code class="literal">Transfer-Encoding</code> 的响应应该被拒绝。这个参数要求是一个 <code class="classname">java.lang.Boolean</code> 类型的值。如果这个参数没有被设置，无效的 <code class="literal">Transfer-Encoding</code> 会被忽略。
                 </p>
             </li><li class="listitem">
                 <p title="'http.protocol.expect-continue':">
                     <b>'http.protocol.expect-continue':&nbsp;</b>
-                    activates <code class="literal">Expect: 100-Continue</code> handshake for the entity
-                        enclosing methods. The purpose of the <code class="literal">Expect:
-                            100-Continue</code> handshake is to allow the client that is sending
-                        a request message with a request body to determine if the origin server is
-                        willing to accept the request (based on the request headers) before the
-                        client sends the request body. The use of the <code class="literal">Expect:
-                            100-continue</code> handshake can result in a noticeable performance
-                        improvement for entity enclosing requests (such as <code class="literal">POST</code>
-                        and <code class="literal">PUT</code>) that require the target server's authentication.
-                            <code class="literal">Expect: 100-continue</code> handshake should be used with
-                        caution, as it may cause problems with HTTP servers and proxies that do not
-                        support HTTP/1.1 protocol. This parameter expects a value of type
-                            <code class="classname">java.lang.Boolean</code>. If this parameter is not set
-                        HttpClient will attempt to use the handshake.
+					激活 <code class="literal">Expect: 100-Continue</code> 握手对于闭合的实体方法？？。
+						<code class="literal">Expect: 100-Continue</code>握手 的目的是为了让正在发送带有请求体的请求消息的客户端来决定是否原始？服务器会在客户端发送请求体之前接收这个请求（基于请求头）。
+						使用 <code class="literal">Expect: 100-continue</code> 握手可能会导致对于实体闭包请求？？（例如 <code class="literal">POST</code> 和 <code class="literal">PUT</code>）显著的性能提升，这需要目标服务器的认证。 <code class="literal">Expect: 100-continue</code> 握手应该谨慎使用，因为它可能会导致 HTTP 服务器和不支持 HTTP/1.1 协议的代理出问题。这个参数要求是一个 <code class="classname">java.lang.Boolean</code> 类型的值。如果这个参数没有被设置，HttpClient 会尝试去握手？？。
                 </p>
             </li><li class="listitem">
                 <p title="'http.protocol.wait-for-continue':">
                     <b>'http.protocol.wait-for-continue':&nbsp;</b>
-                    defines the maximum period of time in milliseconds the client should spend
-                        waiting for a <code class="literal">100-continue</code> response. This parameter
-                        expects a value of type <code class="classname">java.lang.Integer</code>. If this
-                        parameter is not set HttpClient will wait 3 seconds for a confirmation
-                        before resuming the transmission of the request body.
+					定义了客户端等待一个 <code class="literal">100-continue</code> 响应的最大周期，以毫秒计。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，HttpClient 在恢复请求体传输之前等待3秒，为了一个确认？？。
                 </p>
             </li></ul></div>
     </div>
-</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="preface.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="connmgmt.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Preface&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;2.&nbsp;Connection management</td></tr></table></div></body></html>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="preface.html">前一页</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="connmgmt.html">下一页</a></td></tr><tr><td width="40%" align="left" valign="top">Preface&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">主页</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;2.&nbsp;连接管理</td></tr></table></div></body></html>
