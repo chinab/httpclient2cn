@@ -1,13 +1,18 @@
 <html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>Chapter&nbsp;2.&nbsp;Connection management</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="fundamentals.html" title="Chapter&nbsp;1.&nbsp;Fundamentals"><link rel="next" href="statemgmt.html" title="Chapter&nbsp;3.&nbsp;HTTP state management"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;2.&nbsp;Connection management</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="fundamentals.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="statemgmt.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;2.&nbsp;Connection management"><div class="titlepage"><div><div><h2 class="title"><a name="connmgmt"></a>Chapter&nbsp;2.&nbsp;Connection management</h2></div></div></div>
-    
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>Chapter&nbsp;2.&nbsp;连接管理</title><link rel="stylesheet" href="css/hc-tutorial.css" type="text/css"><meta name="generator" content="DocBook XSL-NS Stylesheets V1.75.2"><link rel="home" href="index.html" title="HttpClient Tutorial"><link rel="up" href="index.html" title="HttpClient Tutorial"><link rel="prev" href="fundamentals.html" title="Chapter&nbsp;1.&nbsp;Fundamentals"><link rel="next" href="statemgmt.html" title="Chapter&nbsp;3.&nbsp;HTTP state management"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="banner"><a class="bannerLeft" href="http://www.apache.org/" title="Apache Software Foundation"><img style="border:none;" src="images/asf_logo_wide.gif"></a><a class="bannerRight" href="http://hc.apache.org/httpcomponents-core/" title="Apache HttpComponents Core"><img style="border:none;" src="images/hc_logo.png"></a><div class="clear"></div></div><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;2.&nbsp;连接管理</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="fundamentals.html">上一页</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="statemgmt.html">下一页</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;2.&nbsp;Connection management"><div class="titlepage"><div><div><h2 class="title"><a name="connmgmt"></a>Chapter&nbsp;2.&nbsp;连接管理</h2></div></div></div>
+
     <p>HttpClient has a complete control over the process of connection initialization and
         termination as well as I/O operations on active connections. However various aspects of
-        connection operations can be controlled using a number of parameters.</p>
-    <div class="section" title="2.1.&nbsp;Connection parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e391"></a>2.1.&nbsp;Connection parameters</h2></div></div></div>
+        connection operations can be controlled using a number of parameters.</p>   
+    <p>
+	HttpClient 在连接连接的初始化、连接的终过程中，以及在活动连接的 I/O 操作上有完全的控制权。但是连接操作的各个方面可以给功过很多参数来控制。？？
+	</p>
+	
+    <div class="section" title="2.1.&nbsp;Connection parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e391"></a>2.1.&nbsp;连接参数</h2></div></div></div>
         
-        <p>These are parameters that can influence connection operations:</p>
+        <p>
+		这些参数可以影响连接操作：</p>
         <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
                 <p title="'http.socket.timeout':">
                     <b>'http.socket.timeout':&nbsp;</b>
@@ -18,6 +23,11 @@
                         a value of type <code class="classname">java.lang.Integer</code>. If this parameter
                         is not set read operations will not time out (infinite timeout).
                 </p>
+                <p title="'http.socket.timeout':">
+                    <b>'http.socket.timeout':&nbsp;</b>
+					定义了以单位是毫秒的soket的超时时间(<code class="literal">SO_TIMEOUT</code>)，即等待数据的超时时间，换句话说，是在连个连续数据报文？？之间的最长的不活跃时间间隔。？？
+					0超时时间解释为无限超时时间（即不超时）？？。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，则读操作不会超时（无限超时）。
+                </p>				
                 <p title="'http.tcp.nodelay':">
                     <b>'http.tcp.nodelay':&nbsp;</b>
                     determines whether Nagle's algorithm is to be used. The Nagle's algorithm
@@ -29,6 +39,11 @@
                         type <code class="classname">java.lang.Boolean</code>. If this parameter is not,
                             <code class="literal">TCP_NODELAY</code> will be enabled (no delay).
                 </p>
+                <p title="'http.tcp.nodelay':">
+                    <b>'http.tcp.nodelay':&nbsp;</b> 决定是否使用 Nagle 算法。？？Nagle 算法尝试通过将传输数据最小化来节约带宽？？。
+					当应用程序希望减少网络延迟提高性能时，可以将 Nagle 算法禁用（通过设置 <code class="literal">TCP_NODELAY</code> ）。
+					提前发送数据，是以牺牲增加贷款开销为代价的。？？这个参数要求是一个 <code class="classname">java.lang.Boolean</code> 类型的值。如果这个参数没有被设置，<code class="literal">TCP_NODELAY</code> 将被置为有效（非延迟）。
+                </p>				
                 <p title="'http.socket.buffer-size':">
                     <b>'http.socket.buffer-size':&nbsp;</b>
                     determines the size of the internal socket buffer used to buffer data
@@ -36,6 +51,10 @@
                         of type <code class="classname">java.lang.Integer</code>. If this parameter is not
                         set HttpClient will allocate 8192 byte socket buffers.
                 </p>
+                <p title="'http.socket.buffer-size':">
+                    <b>'http.socket.buffer-size':&nbsp;</b>
+					决定在接收/发送 HTTP 消息时用于缓冲数据的内部soket缓冲区大小。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，HttpClient 会默认分配8192字节的空间给soket缓冲区。
+                </p>				
                 <p title="'http.socket.linger':">
                     <b>'http.socket.linger':&nbsp;</b>
                     sets <code class="literal">SO_LINGER</code> with the specified linger time in
@@ -44,6 +63,10 @@
                         The setting only affects the socket close operation. If this parameter is
                         not set value -1 (JRE default) will be assumed.
                 </p>
+                <p title="'http.socket.linger':">
+                    <b>'http.socket.linger':&nbsp;</b>
+					用以秒为单位的拖延时间来设置<code class="literal">SO_LINGER</code>？？。最大的超时时间根据平台的不同而不同？？。0 代表禁用该选项。-1 表示使用 JRE 的默认值。这是设置只影响soket的关闭操作。如果这个参数没有被设置，会假定使用 -1 （JRE的默认值）。
+                </p>				
                 <p title="'http.connection.timeout':">
                     <b>'http.connection.timeout':&nbsp;</b>
                     determines the timeout in milliseconds until a connection is established.
@@ -52,6 +75,10 @@
                         If this parameter is not set connect operations will not time out (infinite
                         timeout).
                 </p>
+                <p title="'http.connection.timeout':">
+                    <b>'http.connection.timeout':&nbsp;</b>
+					以毫秒为单位决定超时时间知道连接被建立为止？？。0 值表示无限超时时间（不超时）？？。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，连接操作不会超时（无限超时）。
+                </p>				
                 <p title="'http.connection.stalecheck':">
                     <b>'http.connection.stalecheck':&nbsp;</b>
                     determines whether stale connection check is to be used. Disabling stale
@@ -63,6 +90,10 @@
                         operations the check should be disabled. If this parameter is not set the
                         stale connection will be performed before each request execution.
                 </p>
+                <p title="'http.connection.stalecheck':">
+                    <b>'http.connection.stalecheck':&nbsp;</b> 决定是否在检查失效连接？？。禁用失效连接可能造成 冒着当通过一个连接执行请求的时所带来的I/O错误的风险而带来可观的性能提升（这个检查可以造成每个请求高达30毫秒的负载）？？。
+					这个参数要求是一个 <code class="classname">java.lang.Boolean</code> 类型的值。考虑到关键操作的性能，这个检查应该被禁用。如果这个参数没有被设置，失效连接会在每个请求执行前执行。
+                </p>				
                 <p title="'http.connection.max-line-length':">
                     <b>'http.connection.max-line-length':&nbsp;</b>
                     determines the maximum line length limit. If set to a positive value, any
@@ -72,6 +103,10 @@
                         type <code class="classname">java.lang.Integer</code>. If this parameter is not set,
                         no limit will be enforced.
                 </p>
+                <p title="'http.connection.max-line-length':">
+                    <b>'http.connection.max-line-length':&nbsp;</b>
+                    定义了行长度限制。如果设置成一个正数，任何超过这个限制的 HTTP 行？？会引发一个 <code class="exceptionname">java.io.IOException</code> 异常。负数或0会有效地禁用这种限制性检查。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，将强行设置成没有限制？？。
+                </p>				
                 <p title="'http.connection.max-header-count':">
                     <b>'http.connection.max-header-count':&nbsp;</b>
                     determines the maximum HTTP header count allowed. If set to a positive
@@ -80,7 +115,11 @@
                         A negative or zero value will effectively disable the check. This parameter
                         expects a value of type <code class="classname">java.lang.Integer</code>. If this
                         parameter is not set, no limit will be enforced.
-                </p>
+				</p>
+                <p title="'http.connection.max-header-count':">
+                    <b>'http.connection.max-header-count':&nbsp;</b>
+					决定允许的 HTTP 头的最大数量？？。如果是一个正数，从数据流中获得的 HTTP 头的数量超过此限制，会引发一个 <code class="exceptionname">java.io.IOException</code> 异常。负数或0将禁用这个限制。这个参数要求是一个 <code class="classname">java.lang.Integer</code> 类型的值。如果这个参数没有被设置，将强行设置成没有限制？？。
+				</p>				
                 <p title="'http.connection.max-status-line-garbage':">
                     <b>'http.connection.max-status-line-garbage':&nbsp;</b>
                     defines the maximum number of ignorable lines before we expect a HTTP
@@ -95,15 +134,26 @@
                         number. If this parameter is not set unlimited number will be
                         assumed.
                 </p>
+                <p title="'http.connection.max-status-line-garbage':">
+                    <b>'http.connection.max-status-line-garbage':&nbsp;</b>
+					定义了在我们收到一个 HTTP 响应的状态行之前可忽略的最大行数。随着HTTP/1.1的保持连接？？｛系统开销，为保持连接而产生的。｝，会引发被由于破坏的脚本？？返回错误的 <code class="literal">Content-Length</code>的问题？？（指定的会比发送的要多）。可惜的是，在很多情况下这个问题不能在一个坏响应之后检测出来，而只能在下一个响应？？｛还是下一个“坏响应”？？｝之前。所以，HttpClient 必须能够以某种方式跳过这些多余的行？？。0 表示不允许在状态行之前有垃圾或空行。使用 <code class="constant">java.lang.Integer#MAX_VALUE</code> 作为数量不限？？。如果没有设置这个参数，则假定设置为数量不限？？。
+                </p>				
             </li></ul></div>
     </div>
-    <div class="section" title="2.2.&nbsp;Connection persistence"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e438"></a>2.2.&nbsp;Connection persistence</h2></div></div></div>
+    <div class="section" title="2.2.&nbsp;Connection persistence"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e438"></a>2.2.&nbsp;连接持久化</h2></div></div></div>
         
         <p>The process of establishing a connection from one host to another is quite complex and
             involves multiple packet exchanges between two endpoints, which can be quite time
             consuming. The overhead of connection handshaking can be significant, especially for
             small HTTP messages. One can achieve a much higher data throughput if open connections
-            can be re-used to execute multiple requests.</p>
+            can be re-used to execute multiple requests.
+		</p>
+		
+		<p>
+		建立一个从一个主机到另外一个主机的过程是很复杂的而且两端牵扯了很多数据包的交换，这是非常耗时的。连接握手？？的负载是很大的，尤其是相对一些小 HTTP 消息。如果能够重用打开的连接来执行多次请求将可以达到比较好的数据吞吐量？？。
+		</p>
+		
+			
         <p>HTTP/1.1 states that HTTP connections can be re-used for multiple requests per
             default. HTTP/1.0 compliant endpoints can also use similar mechanism to explicitly
             communicate their preference to keep connection alive and use it for multiple requests.
@@ -111,14 +161,19 @@
             connection to the same target host may be needed for subsequent requests. The ability to
             keep connections alive is usually refered to as connection persistence. HttpClient fully
             supports connection persistence.</p>
+			
+        <p>
+		HTTP/1.1 指出，HTTP 连接可以被重用对于多个每个默认请求？？。兼容的 HTTP/1.0 也可以用同样的机制来明确地和他们属性通信？？，来保证连接在线，并用于多重请求。HTTP 代理？？也可以在一段时间的内保持空闲的连接在线万一随后的请求是到同一个目标服务器的。
+		保持连接有效的能力通常值得就是连接额持久化。HttpClient 完全支持连接的持久化。</p>			
     </div>
-    <div class="section" title="2.3.&nbsp;HTTP connection routing"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e442"></a>2.3.&nbsp;HTTP connection routing</h2></div></div></div>
+    <div class="section" title="2.3.&nbsp;HTTP connection routing"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e442"></a>2.3.&nbsp;HTTP 连接的？？路由</h2></div></div></div>
         
         <p>HttpClient is capable of establishing connections to the target host either directly
             or via a route that may involve multiple intermediate connections also referred to as
             hops. HttpClient differentiates connections of a route into plain, tunneled and layered.
             The use of multiple intermediate proxies to tunnel connections to the target host is
             referred to as proxy chaining.</p>
+			
         <p>Plain routes are established by connecting to the target or the first and only proxy.
             Tunnelled routes are established by connecting to the first and tunnelling through a
             chain of proxies to the target. Routes without a proxy cannot be tunnelled. Layered
